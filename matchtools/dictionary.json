@@ -1,0 +1,105 @@
+{
+"center": [
+"central",
+"centre"
+],
+"deep": [
+"dalam",
+"profundo"
+],
+"east": [
+"e",
+"est",
+"este",
+"oost",
+"ost",
+"timur",
+"vostochno",
+"vostochnoe",
+"vostochnoye",
+"vostok",
+"vostoko"
+],
+"gas": [],
+"lower": [
+"nizhne",
+"nizhnee",
+"nizhneye"
+],
+"north": [
+"kuzey",
+"n",
+"noord",
+"nord",
+"norte",
+"sever",
+"severno",
+"severnoe",
+"severnoye",
+"severo",
+"utara"
+],
+"north east": [
+"ne",
+"nordeste",
+"nordost",
+"northeast",
+"east north"
+],
+"north west": [
+"nw",
+"northwest"
+],
+"offshore": [],
+"oil": [],
+"onshore": [
+"more"
+],
+"south": [
+"guney",
+"s",
+"selatan",
+"sud",
+"sued",
+"sur",
+"syd",
+"yug",
+"yugo",
+"yuzhno",
+"yuzhnoe",
+"yuzhnoye"
+],
+"south east": [
+"se",
+"sudeste",
+"sureste",
+"southeast",
+"east south"
+],
+"south west": [
+"suroeste",
+"sw",
+"southwest"
+],
+"upper": [
+"verkhne",
+"verkhnee",
+"verkhneye"
+],
+"west": [
+"barat",
+"bati",
+"kulon",
+"nyugat",
+"oeste",
+"ouest",
+"ovest",
+"vest",
+"w",
+"zapad",
+"zapadno",
+"zapadnoe",
+"zapadnoye",
+"zapado"
+]
+}
