@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='matchtools',
-    version='0.1',
+    version='0.1.1',
     description='A set of tools for data matching and manipulation',
     author='Anton Kupenko & Dawid Kaczmarski',
     author_email='anton.kupenko@gmail.com, dawidkaczmarski@gmail.com',
