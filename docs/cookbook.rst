@@ -227,6 +227,8 @@ records:
 
 .. code:: python
 
+    from matchtools import MatchBlock, match_find, match_find_all
+
     MatchBlock.number_tolerance = 10
     MatchBlock.date_tolerance = 5
     MatchBlock.coordinates_tolerance = 0
@@ -236,9 +238,9 @@ records:
     record_a = ['Name 11', 5, '1 May 2015', '36.611111, 41.886111']
     
     records_b = [['Name 1', 5, '1 May 2015', '36.611111, 41.886111'],
-                     ['Name 11', 7, '1 May 2016', '36.611111, 41.886111'],
-                     ['Name 11', 15, '6 May 2015','36.611111, 41.886111'],
-                     ['Name 11', 15, '1 May 2015', '36.611111, 41.886111']]
+                 ['Name 11', 7, '1 May 2016', '36.611111, 41.886111'],
+                 ['Name 11', 15, '6 May 2015','36.611111, 41.886111'],
+                 ['Name 11', 15, '1 May 2015', '36.611111, 41.886111']]
 ..
 
     >>> match_find(record_a, records_b)
