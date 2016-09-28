@@ -1,9 +1,8 @@
 [![Build Status](https://travis-ci.org/matchtools/matchtools.svg?branch=master)](https://travis-ci.org/matchtools/matchtools) [![Documentation Status](https://readthedocs.org/projects/matchtools/badge/?version=latest)](http://matchtools.readthedocs.io/en/latest/?badge=latest)
- 
 
 # Matchtools
 
-Streamline data matching and integration processes. Compare strings or even rows containing different kinds of data and use specific tolerance for each kind.
+Streamline data matching and integration processes. Compare single values (or entire rows) containing different kinds of data and specify match tolerance for each.
 
 ### Requirements
 - Python 3.5 or higher
@@ -19,7 +18,7 @@ Streamline data matching and integration processes. Compare strings or even rows
 
 ### Documentation
 
-Please  refer to the [documentation](http://matchtools.readthedocs.io/en/latest/index.html) for the [API](http://matchtools.readthedocs.io/en/latest/api.html) description and more real life examples given in the [cookbook](http://matchtools.readthedocs.io/en/latest/cookbook.html).
+Please refer to the [documentation](http://matchtools.readthedocs.io/en/latest/index.html) for the [API](http://matchtools.readthedocs.io/en/latest/api.html) description and more real life examples given in the [cookbook](http://matchtools.readthedocs.io/en/latest/cookbook.html).
 
 ### Usage
 
@@ -37,11 +36,11 @@ When instantiated, MatchBlock object tries to automatically guess and extract fo
 When MatchBlock objects compared, each data type from both objects gets compared to the corresponding type of another object. To determine if the pair of data types is a match, each type uses tolerance parameter, which should be set beforehand.
 
 * **number_tolerance** – absolute difference between numbers compared to tolerance
-* **date_tolerance** - difference between two dates compared to tolerance set in days
-* **coordinates_tolerance** - distance between two points in km (by default) compared to tolerance
-* **string_tolerance** - difference between two strings using fuzzywuzzy's UWRatio method (by default) compared to tolerance
-* **str_number_tolerance** - same as **string_tolerance** but for numbers and chars with numbers
-* **str_custom_tolerance** - same as **string_tolerance** but for strings obtained through substitution
+* **date_tolerance** – difference between two dates compared to tolerance set in days
+* **coordinates_tolerance** – distance between two points in km (by default) compared to tolerance
+* **string_tolerance** – difference between two strings using fuzzywuzzy's UWRatio method (by default) compared to tolerance
+* **str_number_tolerance** – same as **string_tolerance** but for numbers and chars with numbers
+* **str_custom_tolerance** – same as **string_tolerance** but for strings obtained through substitution
 
 If all of the data types are matched, two MatchBlock objects are considered as a match.
 
