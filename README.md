@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/matchtools/matchtools.svg?branch=master)](https://travis-ci.org/matchtools/matchtools) [![Documentation Status](https://readthedocs.org/projects/matchtools/badge/?version=latest)](http://matchtools.readthedocs.io/en/latest/?badge=latest)
+ 
+
 # Matchtools
 
 Streamline data matching and integration processes. Compare strings or even rows containing different kinds of data and use specific tolerance for each kind.
