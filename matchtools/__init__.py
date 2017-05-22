@@ -1,5 +1,7 @@
-from .matchblock import MatchBlock
-from .utils import *
+from ._matchblock import *
+from ._utils import *
 
-__version__ = '0.1'
+__all__ = _matchblock.__all__ + _utils.__all__
+
+__version__ = '0.1.2'
 __author__ = 'Anton Kupenko & Dawid Kaczmarski'

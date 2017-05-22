@@ -6,11 +6,11 @@ integration processes.
 This document contains an overview of the package's functionalities.
 It is divided into three parts:
 
-1. Data manipulation.
+`1. Data manipulation`_.
 
-2. Compare single records.
+`2. Compare single records`_.
 
-3. Compare multiple records.
+`3. Compare multiple records`_.
 
 The first part presents how to use the package to perform some specific
 data operations. Integrating data from different sources often requires
@@ -26,8 +26,6 @@ different types of tolerance.
 
 The third part shows how to use matchtools to find matching records
 within nested lists.
-
-The cookbook also includes a description of the way the package handles non-alphanumeric characters in versions 0.1.x
 
     >>> from matchtools import *
 
@@ -70,7 +68,7 @@ spelling or conventional inconsistencies are likely to occur. Such
 situation often takes place when data contain cardinal directions. For
 example, it probably makes sense to standardize *vest*, *w*, as well as
 *zapad* (rus.) or *ouest* (fr.) as *west*. The package uses a predefined
-set of standardised forms, see the documentation of MatchBlock.dict\_sub
+set of standardised forms, see the documentation of **MatchBlock.dict\_sub**
 to learn how to provide a user-defined one.
 
  >>> MatchBlock.dict_sub("there's a feeling I get when I look to the W")
@@ -124,8 +122,8 @@ its name or position:
 **Specifying tolerance**
 
 Specifying tolerance for each data type is a crucial part of the
-process. This is how we define what similarity criteria two MatchBlock
-objects must fulfil in order to be considered as equal. MatchBlock class
+process. This is how we define what similarity criteria two **MatchBlock**
+objects must fulfil in order to be considered as equal. **MatchBlock** class
 allows the following tolerances:
 
 +-------------------+-------------------------------------------------------+
@@ -158,20 +156,20 @@ to determine whether two string objects are the same, given the
 tolerances specified.
 
 .. note::
-    Comparing two MatchBlock objects triggers the following data
+    Comparing two **MatchBlock** objects triggers the following data
     manipulation methods on both of them, there's no need to execute them
-    before the comparison: roman\_to\_integers, strip\_zeros, is\_abbreviation,
-    dict\_sub.
+    before the comparison: **roman\_to\_integers**, **strip\_zeros**,
+    **is\_abbreviation**, **dict\_sub**.
 ..
 
     >>> object1 = MatchBlock('WOJCIOW 11 DEV 07-NOV-86')
     >>> object2 = MatchBlock('WOJCIOW 12 DEV 01-NOV-86')
-    >>> print(object1)
-    MatchBlock object [Date: [datetime.datetime(1986, 11, 7, 0, 0)], String: WOJCIOW DEV, String (number part): 11]
-    >>> print(object2)
-    MatchBlock object [Date: [datetime.datetime(1986, 11, 1, 0, 0)], String: WOJCIOW DEV, String (number part): 12]
+    >>> object1
+    <MatchBlock object at 0x105d43080: date: 1986-11-07, string: WOJCIOW DEV, string (number part): 11>
+    >>> object2
+    <MatchBlock object at 0x1063c1e80: date: 1986-11-01, string: WOJCIOW DEV, string (number part): 12>
 
-We created two MatchBlock objects. We can see how the input string has
+We created two **MatchBlock** objects. We can see how the input string has
 been split into date, text and text-number components. Now, let's set
 some tolerance values and perform a comparison:
 
@@ -191,10 +189,10 @@ still too much difference in the numeric components of the objects:
 
 Still false. This is because the numeric parts of the objects come from
 a string, not an integer or float. Therefore we need to specify the
-str\_number\_tolerance appropriately. A thing to remember,
-str\_number\_tolerance is a Levenshtein distance tolerance. That's why
+**str\_number\_tolerance** appropriately. A thing to remember,
+**str\_number\_tolerance** is a Levenshtein distance tolerance. That's why
 setting it to 1 wouldn't be enough in this case. We use
-number\_tolerance when working with numbers that are not extracted from
+**number\_tolerance** when working with numbers that are not extracted from
 strings and that tolerance is simply a distance between numbers in
 integers. The next section includes such objects.
 
@@ -207,10 +205,10 @@ integers. The next section includes such objects.
 In a real work situation you will probably want to perform more complex
 analysis. For example, you may want to determine whether a record from
 Database A is equal to a record from Database B. This can be achieved with
-match\_rows() function.
+**match\_rows** function.
 
-    >>> record_1 = ['Well 1', 5, '1 May 2015']
-    >>> record_2 = ['Well 01', 10, '2015-05-01']
+    >>> record_1 = ['London 1', 5, '1 May 2015']
+    >>> record_2 = ['London_01', 10, '2015-05-01']
     >>> MatchBlock.number_tolerance = 10
     >>> match_rows(record_1, record_2)
     True
@@ -221,9 +219,9 @@ match\_rows() function.
 Matchtools include two functions to perform matching on a list of
 records:
 
-* match\_find() takes an input record, compares it to a set of records and
+* **match\_find** takes an input record, compares it to a set of records and
   returns the first matching object
-* match\_find\_all() does the same but returns a list of all matching objects
+* **match\_find\_all** does the same but returns a list of all matching objects
 
 .. code:: python
 
@@ -234,60 +232,17 @@ records:
     MatchBlock.coordinates_tolerance = 0
     MatchBlock.string_tolerance = 0
     MatchBlock.str_number_tolerance = 0
-        
-    record_a = ['Name 11', 5, '1 May 2015', '36.611111, 41.886111']
-    
-    records_b = [['Name 1', 5, '1 May 2015', '36.611111, 41.886111'],
-                 ['Name 11', 7, '1 May 2016', '36.611111, 41.886111'],
-                 ['Name 11', 15, '6 May 2015','36.611111, 41.886111'],
-                 ['Name 11', 15, '1 May 2015', '36.611111, 41.886111']]
+
+    record_1 = ['Flight 3', 5, '1 May 2015', '52.3740300, 4.8896900']
+
+    records = [['Flight 1', 0, '3 May 2015', '52.3740300, 4.8896900'],
+               ['Flight 2', 5, '4 May 2016', '52.3740300, 4.8896900'],
+               ['Flight 3', 10, '5 May 2015', '52.3740300, 4.8896900'],
+               ['Flight 3', 15, '6 May 2015', '52.3740300, 4.8896900']]
 ..
 
-    >>> match_find(record_a, records_b)
-    ['Name 11', 15, '6 May 2015', '36.611111, 41.886111']
+    >>> match_find(record_1, records)
+    ['Flight 3', 10, '5 May 2015', '52.3740300, 4.8896900']
 
-    >>> match_find_all(record_a, records_b)
-    [['Name 11', 15, '6 May 2015', '36.611111, 41.886111'], ['Name 11', 15, '1 May 2015', '36.611111, 41.886111']]
-
-Handling non-alphanumeric characters
-------------------------------------
-
-.. warning::
-    In versions 0.1.x matchtools replaces non-alphanumeric characters with a
-    single white space. In some situations this may result in some
-    apparently matching records being unmatched.
-..
-
-    >>> print(MatchBlock('A-1'))
-    MatchBlock object [String: A, String (number part): 1]
-
-    >>> print(MatchBlock('A1'))
-    MatchBlock object [String (number part): A1]
-
-    >>> MatchBlock('A-1') == MatchBlock('A1')
-    False
-
-It is advised to examine, and when necessary, manipulate the datasets
-compared, before using the package's matching methodology:
-
-    >>> dataset1 = [['lfc1', '01-May-2001'], ['lfc2', '02-May-2002'], ['lfc3', '03-May-2003']]
-    >>> dataset2 = [['lfc/2', '02-May-2002'], ['lfc/3', '03-May-2003'], ['lfc/1', '01-May-2001']]
-    >>> dataset2 = [[name.replace('/',''), date] for name, date in dataset2]
-    >>> dataset2
-    [['lfc2', '02-May-2002'], ['lfc3', '03-May-2003'], ['lfc1', '01-May-2001']]
-
-.. code:: python
-
-    for record in dataset1:
-        matching = match_find(record, dataset2)
-        print("dataset1: {}, dataset2: {}".format(record, matching))
-
-.. parsed-literal::
-
-    dataset1: ['lfc1', '01-May-2001'], dataset2: ['lfc1', '01-May-2001']
-    dataset1: ['lfc2', '02-May-2002'], dataset2: ['lfc2', '02-May-2002']
-    dataset1: ['lfc3', '03-May-2003'], dataset2: ['lfc3', '03-May-2003']
-
-.. note::
-    The way the package handles non-alphanumeric characters might change
-    in v.0.2.0.
+    >>> match_find_all(record_1, records)
+    [['Flight 3', 10, '5 May 2015', '52.3740300, 4.8896900'], ['Flight 3', 15, '6 May 2015', '52.3740300, 4.8896900']]

@@ -1,8 +1,7 @@
 API
 ===
 
-.. automodule:: matchblock
-   :members: 
-   
-.. automodule:: utils
+.. automodule:: matchtools
    :members:
+.. autofunction:: move_element_to_front
+.. autofunction:: move_element_to_back

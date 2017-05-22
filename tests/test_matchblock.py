@@ -1,61 +1,64 @@
 import datetime
+import os
+import sys
 import unittest
+
+sys.path.insert(
+    0, os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir)))
 
 from matchtools import MatchBlock
 
 
 class TestMatchBlock(unittest.TestCase):
-    # Decorators are tested as below:
-    # 1. check_tolerance: test_compare_dates_warning
     def test_dict_sub_pass_1(self):
-        string = 'Well 1 NE'
+        string = 'London 1 NE'
         result = MatchBlock.dict_sub(string)
-        self.assertEqual('Well 1 north east', result)
+        self.assertEqual('London 1 north east', result)
 
     def test_dict_sub_pass_2(self):
-        string = 'Sudan S'
+        string = 'N London'
         result = MatchBlock.dict_sub(string)
-        self.assertEqual('Sudan south', result)
+        self.assertEqual('north London', result)
 
     def test_dict_sub_pass_3(self):
-        string = 'Ait Hamouda South-West'
+        string = 'London South-West'
         result = MatchBlock.dict_sub(string)
-        self.assertEqual('Ait Hamouda South-West', result)
+        self.assertEqual('London South-West', result)
 
     def test_dict_sub_pass_4(self):
-        string = 'Ait Hamouda SouthWest'
+        string = 'London SouthWest'
         result = MatchBlock.dict_sub(string)
-        self.assertEqual('Ait Hamouda south west', result)
+        self.assertEqual('London south west', result)
 
     def test_dict_sub_pass_5(self):
-        string = 'Nord Atlas'
+        string = 'Nord London'
         result = MatchBlock.dict_sub(string)
-        self.assertEqual('north Atlas', result)
+        self.assertEqual('north London', result)
 
     def test_dict_sub_pass_6(self):
-        string = 'Ait Hamouda'
+        string = 'London'
         result = MatchBlock.dict_sub(string)
-        self.assertEqual('Ait Hamouda', result)
+        self.assertEqual('London', result)
 
     def test_dict_sub_pass_7(self):
-        string = 'Ait   Hamouda  N  '
+        string = '  London  N  '
         result = MatchBlock.dict_sub(string)
-        self.assertEqual('Ait   Hamouda  north  ', result)
+        self.assertEqual('  London  north  ', result)
 
     def test_dict_sub_pass_8(self):
-        string = '0 Troll N/21'
+        string = '0 London N/21'
         result = MatchBlock.dict_sub(string)
-        self.assertEqual('0 Troll north/21', result)
+        self.assertEqual('0 London north/21', result)
 
     def test_dict_sub_pass_9(self):
-        string = '0 Troll N21'
+        string = '0 London N21'
         result = MatchBlock.dict_sub(string)
-        self.assertEqual('0 Troll N21', result)
+        self.assertEqual('0 London N21', result)
 
     def test_dict_sub_pass_10(self):
-        string = 'Hadi_bAraT_10'
+        string = 'London_nOrD_10'
         result = MatchBlock.dict_sub(string)
-        self.assertEqual('Hadi_west_10', result)
+        self.assertEqual('London_north_10', result)
 
     def test_dict_sub_pass_11(self):
         string = 'J-W1-NX186'
@@ -69,14 +72,14 @@ class TestMatchBlock(unittest.TestCase):
             "there's a feeling I get when I look to the west", result)
 
     def test_strip_zeros_pass_1(self):
-        string = 'Well 001'
+        string = 'London 001'
         result = MatchBlock.strip_zeros(string)
-        self.assertEqual('Well 1', result)
+        self.assertEqual('London 1', result)
 
     def test_strip_zeros_pass_2(self):
-        string = 'Well T001'
+        string = 'London T001'
         result = MatchBlock.strip_zeros(string)
-        self.assertEqual('Well T1', result)
+        self.assertEqual('London T1', result)
 
     def test_strip_zeros_pass_3(self):
         string = 'A-001-102/004'
@@ -119,94 +122,94 @@ class TestMatchBlock(unittest.TestCase):
         self.assertEqual(tested, ['ABC', '-', 'D', ' ', 'EF', '*', 'G'])
 
     def test_is_abbreviation_pass_1(self):
-        string1 = 'Garet Al Bafinat'
-        string2 = 'GAB'
+        string1 = 'National Health Service'
+        string2 = 'NHS'
         result = MatchBlock.is_abbreviation(string1, string2)
         self.assertIs(result, True)
 
     def test_is_abbreviation_pass_2(self):
-        string1 = 'GAB'
-        string2 = 'Garet Al Bafinat'
+        string1 = 'NHS'
+        string2 = 'National Health Service'
         result = MatchBlock.is_abbreviation(string1, string2)
         self.assertIs(result, True)
 
     def test_is_abbreviation_pass_3(self):
-        string1 = 'Name With an Article'
-        string2 = 'NWA'
+        string1 = 'The National Aeronautics and Space Administration'
+        string2 = 'NASA'
         result = MatchBlock.is_abbreviation(string1, string2)
         self.assertIs(result, True)
 
     def test_is_abbreviation_pass_4(self):
-        string1 = 'Super Long String'
-        string2 = '                        SLS   '
+        string1 = 'Jet Propulsion Laboratory'
+        string2 = '                        JPL   '
         result = MatchBlock.is_abbreviation(string1, string2)
         self.assertIs(result, True)
 
     def test_is_abbreviation_pass_5(self):
-        string1 = '                        SLS   '
-        string2 = 'A Super Long String'
+        string1 = '                        JPL   '
+        string2 = 'A Jet Propulsion Laboratory'
         result = MatchBlock.is_abbreviation(string1, string2)
         self.assertIs(result, True)
 
     def test_extract_coordinates_pass_1(self):
-        original_string = '36.611111,41.886111'
+        original_string = '53.41058,-2.97794'
         string = ''
-        coordinates = (36.611111, 41.886111)
+        coordinates = (53.41058, -2.97794)
         result = MatchBlock.extract_coordinates(original_string)
         self.assertEqual((string, coordinates), result)
 
     def test_extract_coordinates_pass_2(self):
-        original_string = 'No coordinates'
-        string = 'No coordinates'
+        original_string = 'Liverpool'
+        string = 'Liverpool'
         coordinates = None
         result = MatchBlock.extract_coordinates(original_string)
         self.assertEqual((string, coordinates), result)
 
     def test_extract_coordinates_pass_3(self):
-        original_string = '36.611111,41.886111 and some text'
-        string = 'and some text'
-        coordinates = (36.611111, 41.886111)
+        original_string = '53.41058,-2.97794 Liverpool'
+        string = 'Liverpool'
+        coordinates = (53.41058, -2.97794)
         result = MatchBlock.extract_coordinates(original_string)
         self.assertEqual((string, coordinates), result)
 
     def test_extract_coordinates_pass_4(self):
-        original_string = '41.499498,-81.695391'
+        original_string = '59.911491,10.757933'
         string = ''
-        coordinates = (41.499498, -81.695391)
+        coordinates = (59.911491, 10.757933)
         result = MatchBlock.extract_coordinates(original_string)
         self.assertEqual((string, coordinates), result)
 
     def test_extract_coordinates_pass_5(self):
-        original_string = '  41.499498 , -81.695391  '
+        original_string = '  59.911491 ,  10.757933  '
         string = ''
-        coordinates = (41.499498, -81.695391)
+        coordinates = (59.911491, 10.757933)
         result = MatchBlock.extract_coordinates(original_string)
         self.assertEqual((string, coordinates), result)
 
     def test_extract_str_number_pass_1(self):
-        original_string = 'Well 1 Nord'
-        string = 'Well Nord'
+        original_string = 'France 1 Nord'
+        string = 'France Nord'
         num = '1'
         result = MatchBlock.extract_str_number(original_string)
         self.assertEqual((string, num), result)
 
     def test_extract_str_number_pass_2(self):
-        original_string = 'Well Nord'
-        string = 'Well Nord'
+        original_string = 'France Nord'
+        string = 'France Nord'
         num = ''
         result = MatchBlock.extract_str_number(original_string)
         self.assertEqual((string, num), result)
 
     def test_extract_str_number_pass_3(self):
-        original_string = '3 Well 4 Nord 5a'
-        string = 'Well Nord'
+        original_string = '3 France 4 Nord 5a'
+        string = 'France Nord'
         num = '3 4 5a'
         result = MatchBlock.extract_str_number(original_string)
         self.assertEqual((string, num), result)
 
     def test_extract_str_number_pass_4(self):
-        original_string = 'New Well 4/1a'
-        string = 'New Well'
+        original_string = 'France 4/1a'
+        string = 'France'
         num = '4 1a'
         result = MatchBlock.extract_str_number(original_string)
         self.assertEqual((string, num), result)
@@ -219,29 +222,29 @@ class TestMatchBlock(unittest.TestCase):
         self.assertEqual((string, num), result)
 
     def test_extract_str_custom_pass_1(self):
-        original_string = 'Well 1 Nord'
-        string = 'Well 1'
+        original_string = 'France 1 Nord'
+        string = 'France 1'
         custom = 'north'
         result = MatchBlock.extract_str_custom(original_string)
         self.assertEqual((string, custom), result)
 
     def test_extract_str_custom_pass_2(self):
-        original_string = 'Well Centre 1 Sud'
-        string = 'Well 1'
+        original_string = 'France Centre 1 Sud'
+        string = 'France 1'
         custom = 'center south'
         result = MatchBlock.extract_str_custom(original_string)
         self.assertEqual((string, custom), result)
 
     def test_extract_str_custom_pass_3(self):
-        original_string = 'Well Sud 1 Centre'
-        string = 'Well 1'
+        original_string = 'France Sud 1 Centre'
+        string = 'France 1'
         custom = 'center south'
         result = MatchBlock.extract_str_custom(original_string)
         self.assertEqual((string, custom), result)
 
     def test_extract_str_custom_pass_4(self):
-        original_string = 'Well 1'
-        string = 'Well 1'
+        original_string = 'France 1'
+        string = 'France 1'
         custom = ''
         result = MatchBlock.extract_str_custom(original_string)
         self.assertEqual((string, custom), result)
@@ -286,8 +289,7 @@ class TestMatchBlock(unittest.TestCase):
         tested = MatchBlock.compare_numbers(num1, num2, tolerance=tol)
         self.assertIs(tested, True)
 
-    def test_compare_dates_warning(self):
-        # testing decorator: check_tolerance
+    def test_compare_dates_check_decorator_fail(self):
         d1, d2 = '12-Feb-2015', '15-Feb-2015'
         tol = -2
         self.assertRaises(ValueError, MatchBlock.compare_dates, d1, d2,
@@ -304,7 +306,7 @@ class TestMatchBlock(unittest.TestCase):
         tol = 3
         tested = MatchBlock.compare_dates(d1, d2, tolerance=tol,
                                           pattern='%b %d %Y')
-        self.assertEqual(tested, 1)
+        self.assertEqual(tested, True)
 
     def test_compare_dates_pass_3(self):
         d1, d2 = datetime.date.today(), datetime.date.today()
@@ -355,39 +357,39 @@ class TestMatchBlock(unittest.TestCase):
         self.assertIs(tested, False)
 
     def test_compare_strings_pass_1(self):
-        string1 = 'Well'
-        string2 = 'Well'
+        string1 = 'Wall'
+        string2 = 'Wall'
         tolerance = 0
         result = MatchBlock.compare_strings(string1, string2,
                                             tolerance=tolerance)
         self.assertIs(result, True)
 
     def test_compare_strings_pass_2(self):
-        string1 = 'Well'
-        string2 = 'Wall'
+        string1 = 'Wall'
+        string2 = 'Fall'
         tolerance = 25
         result = MatchBlock.compare_strings(string1, string2,
                                             tolerance=tolerance)
         self.assertIs(result, True)
 
     def test_compare_strings_pass_3(self):
-        string1 = 'Well'
-        string2 = 'Wall'
+        string1 = 'Wall'
+        string2 = 'Fall'
         tolerance = 25.5
         result = MatchBlock.compare_strings(string1, string2,
                                             tolerance=tolerance)
         self.assertIs(result, True)
 
     def test_compare_strings_fail_1(self):
-        string1 = 'Well'
-        string2 = 'Wall'
+        string1 = 'Wall'
+        string2 = 'Fall'
         tolerance = 0
         result = MatchBlock.compare_strings(string1, string2,
                                             tolerance=tolerance)
         self.assertIs(result, False)
 
     def test_compare_strings_fail_2(self):
-        string1 = 'Well'
+        string1 = 'Wall'
         string2 = ''
         tolerance = 0
         result = MatchBlock.compare_strings(string1, string2,
@@ -395,7 +397,7 @@ class TestMatchBlock(unittest.TestCase):
         self.assertIs(result, False)
 
     def test_compare_strings_fail_3(self):
-        string1 = 'Well'
+        string1 = 'Wall'
         string2 = ''
         tolerance = 0
         result = MatchBlock.compare_strings(string1, string2,
@@ -403,22 +405,22 @@ class TestMatchBlock(unittest.TestCase):
         self.assertIs(result, False)
 
     def test_compare_strings_fail_4(self):
-        string1 = 'Well'
-        string2 = 'Well'
+        string1 = 'Wall'
+        string2 = 'Wall'
         tolerance = -1
         self.assertRaises(ValueError, MatchBlock.compare_strings,
                           string1, string2, tolerance=tolerance)
 
     def test_compare_strings_fail_5(self):
-        string1 = 'Well'
-        string2 = 'Well'
+        string1 = 'Wall'
+        string2 = 'Wall'
         tolerance = 101
         self.assertRaises(ValueError, MatchBlock.compare_strings,
                           string1, string2, tolerance=tolerance)
 
     def test_compare_strings_fail_6(self):
-        string1 = 'Well'
-        string2 = 'Wall'
+        string1 = 'Wall'
+        string2 = 'Fall'
         tolerance = 25.5
         self.assertRaises(ValueError, MatchBlock.compare_strings,
                           string1, string2, tolerance=tolerance, method='abc')
@@ -434,11 +436,11 @@ class TestMatchBlock(unittest.TestCase):
         self.assertIs(result, True)
 
     def test_compare_coordinates_pass_2(self):
-        lat1 = 36.611111
-        lng1 = 41.886111
-        lat2 = 32.383333
-        lng2 = 47.390833
-        tolerance = 600
+        lat1 = 52.520008
+        lng1 = 13.404954
+        lat2 = 53.551086
+        lng2 = 9.993682
+        tolerance = 200
         unit = 'mi'
         result = MatchBlock.compare_coordinates((lat1, lng1), (lat2, lng2),
                                                 tolerance=tolerance, unit=unit)
@@ -455,20 +457,20 @@ class TestMatchBlock(unittest.TestCase):
         self.assertIs(result, False)
 
     def test_compare_coordinates_fail_2(self):
-        lat1 = 36.611111
-        lng1 = 41.886111
-        lat2 = 32.383333
-        lng2 = 47.390833
+        lat1 = 52.520008
+        lng1 = 13.404954
+        lat2 = 42.520000
+        lng2 = 23.400000
         tolerance = 600
         result = MatchBlock.compare_coordinates((lat1, lng1), (lat2, lng2),
                                                 tolerance=tolerance)
         self.assertIs(result, False)
 
     def test_compare_coordinates_fail_3(self):
-        lat1 = 36.611111
-        lng1 = 41.886111
-        lat2 = 32.383333
-        lng2 = 47.390833
+        lat1 = 52.520008
+        lng1 = 13.404954
+        lat2 = 42.520000
+        lng2 = 23.400000
         tolerance = 600
         result = MatchBlock.compare_coordinates((lat1, lng1), (lat2, lng2),
                                                 tolerance=tolerance,
@@ -476,10 +478,10 @@ class TestMatchBlock(unittest.TestCase):
         self.assertIs(result, False)
 
     def test_compare_coordinates_fail_4(self):
-        lat1 = 36.0
-        lng1 = 41.0
-        lat2 = 32.0
-        lng2 = 47.0
+        lat1 = 52.0
+        lng1 = 13.0
+        lat2 = 42.0
+        lng2 = 23.0
         tolerance = 100
         result = MatchBlock.compare_coordinates((lat1, lng1), (lat2, lng2),
                                                 tolerance=tolerance)
@@ -513,6 +515,16 @@ class TestMatchBlock(unittest.TestCase):
                                   [datetime.datetime(1977, 5, 25, 0, 0),
                                    datetime.datetime(2005, 5, 25, 0, 0)]))
 
+    def test_check_roman_pass_1(self):
+        string = 'IX'
+        tested = MatchBlock.from_roman(string)
+        self.assertEqual(tested, '9')
+
+    def test_check_roman_pass_2(self):
+        string = 'IIVX'
+        tested = MatchBlock.from_roman(string)
+        self.assertEqual(tested, 'IIVX')
+
     def test_matchblock_pass_1(self):
         matchblock_1 = MatchBlock(1)
         matchblock_2 = MatchBlock(1)
@@ -532,65 +544,147 @@ class TestMatchBlock(unittest.TestCase):
         self.assertIs(matchblock_1 == matchblock_2, True)
 
     def test_matchblock_pass_4(self):
-        matchblock_1 = MatchBlock('Well')
-        matchblock_2 = MatchBlock('Well')
+        matchblock_1 = MatchBlock('Madrid')
+        matchblock_2 = MatchBlock('Madrid')
 
         self.assertIs(matchblock_1 == matchblock_2, True)
 
     def test_matchblock_pass_5(self):
-        matchblock_1 = MatchBlock('Well North')
-        matchblock_2 = MatchBlock('Well N')
+        matchblock_1 = MatchBlock('Madrid North')
+        matchblock_2 = MatchBlock('Madrid N')
 
         self.assertIs(matchblock_1 == matchblock_2, True)
 
     def test_matchblock_pass_6(self):
-        matchblock_1 = MatchBlock('Well S')
-        matchblock_2 = MatchBlock('Well N')
+        matchblock_1 = MatchBlock('Madrid S')
+        matchblock_2 = MatchBlock('Madrid N')
 
         self.assertIs(matchblock_1 != matchblock_2, True)
 
     def test_matchblock_pass_7(self):
-        matchblock_1 = MatchBlock('Well 01')
-        matchblock_2 = MatchBlock('Well 1')
+        matchblock_1 = MatchBlock('Madrid 01')
+        matchblock_2 = MatchBlock('Madrid 1')
 
         self.assertIs(matchblock_1 == matchblock_2, True)
 
     def test_matchblock_pass_8(self):
-        matchblock_1 = MatchBlock('Well With Ultra High Production 10')
-        matchblock_2 = MatchBlock('WWUHP 10')
+        matchblock_1 = MatchBlock('IATA 10')
+        matchblock_2 = MatchBlock('International Air Transport Association 10')
 
         self.assertIs(matchblock_1 == matchblock_2, True)
 
     def test_matchblock_pass_9(self):
-        matchblock_1 = MatchBlock('Well 10')
-        matchblock_2 = MatchBlock('Well X')
+        matchblock_1 = MatchBlock('Madrid 10')
+        matchblock_2 = MatchBlock('Madrid X')
 
         self.assertIs(matchblock_1 == matchblock_2, True)
 
     def test_matchblock_fail_1(self):
-        matchblock_1 = MatchBlock('Well S')
-        matchblock_2 = MatchBlock('Well N')
+        matchblock_1 = MatchBlock('Madrid S')
+        matchblock_2 = MatchBlock('Madrid N')
 
         self.assertIs(matchblock_1 == matchblock_2, False)
 
     def test_matchblock_fail_2(self):
-        matchblock_1 = MatchBlock('Well 1')
-        matchblock_2 = MatchBlock('Well')
+        matchblock_1 = MatchBlock('Madrid 1')
+        matchblock_2 = MatchBlock('Madrid')
 
         self.assertIs(len(matchblock_1) == len(matchblock_2), False)
 
     def test_matchblock_fail_3(self):
-        matchblock_1 = MatchBlock('Well 1')
+        matchblock_1 = MatchBlock('Madrid 1')
         matchblock_2 = 1
 
         self.assertRaises(TypeError, matchblock_1.__eq__, matchblock_2)
 
-    def test_check_roman_pass_1(self):
-        string = 'IX'
-        tested = MatchBlock.check_roman(string)
-        self.assertEqual(tested, '9')
+    def test_matchblock_try_date_on_pass_1(self):
+        matchblock = MatchBlock('31-Dec-2015 New Year', try_date=True)
+        date = [datetime.datetime(2015, 12, 31, 0, 0)]
+        string = 'New Year'
+        str_number = ''
 
-    def test_check_roman_pass_2(self):
-        string = 'IIVX'
-        tested = MatchBlock.check_roman(string)
-        self.assertEqual(tested, 'IIVX')
+        self.assertEqual(matchblock.date, date)
+        self.assertEqual(matchblock.string, string)
+        self.assertEqual(matchblock.str_number, str_number)
+
+    def test_matchblock_try_date_off_pass_1(self):
+        matchblock = MatchBlock('31-Dec-2015 New Year', try_date=False)
+        date = []
+        string = 'Dec New Year'
+        str_number = '31 2015'
+
+        self.assertEqual(matchblock.date, date)
+        self.assertEqual(matchblock.string, string)
+        self.assertEqual(matchblock.str_number, str_number)
+
+    def test_matchblock_try_coordinates_on_pass_1(self):
+        matchblock = MatchBlock('41.49008, -71.312796', try_coordinates=True)
+        coordinates = (41.49008, -71.312796)
+        string = ''
+        str_number = ''
+
+        self.assertEqual(matchblock.coordinates, coordinates)
+        self.assertEqual(matchblock.string, string)
+        self.assertEqual(matchblock.str_number, str_number)
+
+    def test_matchblock_try_coordinates_off_pass_1(self):
+        matchblock = MatchBlock('41.49008, -71.312796', try_coordinates=False)
+        coordinates = None
+        string = ''
+        str_number = '41 49008 71 312796'
+
+        self.assertEqual(matchblock.coordinates, coordinates)
+        self.assertEqual(matchblock.string, string)
+        self.assertEqual(matchblock.str_number, str_number)
+
+    def test_matchblock_try_str_number_on_pass_1(self):
+        matchblock = MatchBlock('Year 2K', try_str_number=True)
+        string = 'Year'
+        str_number = '2K'
+
+        self.assertEqual(matchblock.string, string)
+        self.assertEqual(matchblock.str_number, str_number)
+
+    def test_matchblock_try_str_number_off_pass_1(self):
+        matchblock = MatchBlock('Year 2K', try_str_number=False)
+        string = 'Year 2K'
+        str_number = ''
+
+        self.assertEqual(matchblock.string, string)
+        self.assertEqual(matchblock.str_number, str_number)
+
+    def test_matchblock_try_str_custom_on_pass_1(self):
+        matchblock = MatchBlock('N America', try_str_custom=True)
+        string = 'America'
+        str_custom = 'north'
+
+        self.assertEqual(matchblock.string, string)
+        self.assertEqual(matchblock.str_custom, str_custom)
+
+    def test_matchblock_try_str_custom_off_pass_1(self):
+        matchblock = MatchBlock('N America', try_str_custom=False)
+        string = 'N America'
+        str_custom = ''
+
+        self.assertEqual(matchblock.string, string)
+        self.assertEqual(matchblock.str_custom, str_custom)
+
+    def test_matchblock_convert_roman_on_pass_1(self):
+        matchblock = MatchBlock('XXI Century', convert_roman=True)
+        string = 'Century'
+        str_number = '21'
+
+        self.assertEqual(matchblock.string, string)
+        self.assertEqual(matchblock.str_number, str_number)
+
+    def test_matchblock_convert_roman_off_pass_1(self):
+        matchblock = MatchBlock('XXI Century', convert_roman=False)
+        string = 'XXI Century'
+        str_number = ''
+
+        self.assertEqual(matchblock.string, string)
+        self.assertEqual(matchblock.str_number, str_number)
+
+
+if __name__ == '__main__':
+    unittest.main()

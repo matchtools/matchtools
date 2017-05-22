@@ -57,7 +57,7 @@ MatchBlock also has some useful class methods for string [transformations](http:
 * Two strings containing *string* and *string number* data types:
 
 ```python
->>> MatchBlock('New York 35') == MatchBlock('35 new-york')
+>>> MatchBlock('New York 35') == MatchBlock('35_new-york')
 True
 ```
 
@@ -113,16 +113,16 @@ MatchBlock.coordinates_tolerance = 0
 MatchBlock.string_tolerance = 0
 MatchBlock.str_number_tolerance = 0
 
-record_a = ['Name 11', 5, '1 May 2015', '36.611111, 41.886111']
+record_1 = ['Flight 3', 5, '1 May 2015', '52.3740300, 4.8896900']
 
-records_b = [['Name 1', 5, '1 May 2015', '36.611111, 41.886111'],
-             ['Name 11', 7, '1 May 2016', '36.611111, 41.886111'],
-             ['Name 11', 15, '6 May 2015','36.611111, 41.886111'],
-             ['Name 11', 15, '1 May 2015', '36.611111, 41.886111']]
+records = [['Flight 1', 0, '3 May 2015', '52.3740300, 4.8896900'],
+           ['Flight 2', 5, '4 May 2016', '52.3740300, 4.8896900'],
+           ['Flight 3', 10, '5 May 2015', '52.3740300, 4.8896900'],
+           ['Flight 3', 15, '6 May 2015', '52.3740300, 4.8896900']]
 
-print(match_find(record_a, records_b))
+print(match_find(record_1, records))
 ````
 
 ```python
-['Name 11', 15, '6 May 2015', '36.611111, 41.886111']
+['Flight 3', 10, '5 May 2015', '52.3740300, 4.8896900']
 ```

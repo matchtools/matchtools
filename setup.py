@@ -2,12 +2,12 @@ from setuptools import setup
 
 setup(
     name='matchtools',
-    version='0.1.1',
+    version='0.1.2',
     description='A set of tools for data matching and manipulation',
     author='Anton Kupenko & Dawid Kaczmarski',
     author_email='anton.kupenko@gmail.com, dawidkaczmarski@gmail.com',
     license='MIT',
-    keywords='match, matching, comparison, data, attributes, integration',
+    keywords='match matching comparison data attributes alignment integration',
     packages=['matchtools'],
     url='https://github.com/matchtools/matchtools',
     package_data={'': ['*.json']},
@@ -22,6 +22,7 @@ setup(
         'Topic :: Scientific/Engineering :: Information Analysis',
         'Topic :: Utilities',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5'
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6'
     ]
 )
